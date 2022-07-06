@@ -11,7 +11,9 @@ def to_chunks(data: list, min_length: int, max_length: int):
     if len(data) <= min_length + max_length:
         return [data[:chunk_len], data[chunk_len:]]
     else:
-        new_data =[data[:chunk_len],]
+        new_data = [
+            data[:chunk_len],
+        ]
         new_data.extend(to_chunks(data[chunk_len:], min_length, max_length))
         return new_data
 

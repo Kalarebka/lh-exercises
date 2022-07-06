@@ -3,26 +3,34 @@
 # Create methods that allow convering units to each other Celcius <-> Farenheit, Centimeter <-> Inch, Kilometer <-> Mile, Liter <-> Gallon
 # Create method that allows to compare units using logical expressions
 
-class Celcius: 
-    ...
-     
-class Farenheit: 
+
+class Celcius:
     ...
 
-class Centimeter: 
+
+class Farenheit:
     ...
 
-class Inch: 
+
+class Centimeter:
     ...
 
-class Kilometer: 
+
+class Inch:
     ...
 
-class Mile: 
+
+class Kilometer:
     ...
 
-class Liter: 
+
+class Mile:
     ...
 
-class Gallon: 
+
+class Liter:
+    ...
+
+
+class Gallon:
     ...
