@@ -7,6 +7,8 @@ alphabet = [x for x in "abcdefghijklmnoprstuwxyz"]
 
 
 def to_chunks(data: list, min_length: int, max_length: int):
+    if len(data) <= max_length:
+        return [data,]
     if len(data) <= 2 * max_length:
         chunk_len = randint(len(data) - max_length, max_length)
         return [data[:chunk_len], data[chunk_len:]]
@@ -19,7 +21,7 @@ def to_chunks(data: list, min_length: int, max_length: int):
         return new_data
 
 
-chunks = to_chunks(alphabet, 2, 10)
+chunks = to_chunks(alphabet, 1, 30)
 print(chunks)
 
 # chunks:
