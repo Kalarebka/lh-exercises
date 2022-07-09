@@ -23,6 +23,3 @@ def to_chunks(data: list, min_length: int, max_length: int):
 
 chunks = to_chunks(alphabet, 1, 30)
 print(chunks)
-
-# chunks:
-# [[a,b,c,d,e,f],[g,h,i,j,k],[l,m,n,o,p,r,s],[t,u,w,x,y,z]]

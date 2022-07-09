@@ -14,7 +14,3 @@ def list_parameters(*args, **kwargs):
     for index, item in enumerate(args):
         new_dict[index] = item
     return new_dict
-
-
-d = list_parameters("cat", "dog", "bird", animal="fish", other_animal="fly")
-print(d)

@@ -1,5 +1,7 @@
 # Write function that counts number of days between two dates
-# Write function that returns new date that is x days away from the given date, when x is positive it returns future date, if x is negative returns past date
+# Write function that returns new date that is x days away from 
+# the given date, when x is positive it returns future date, 
+# if x is negative returns past date
 from datetime import date, timedelta
 
 def count_days(date_one: date, date_two: date):
