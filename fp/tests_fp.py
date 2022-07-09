@@ -5,6 +5,7 @@ from datetime import date
 from args_and_other_kwargs import list_parameters
 from chunks import to_chunks
 from count_days import count_days, date_from
+from pagination import paginate
 
 
 class TestListParameters:
@@ -14,7 +15,6 @@ class TestListParameters:
         assert result[0] == 42
         assert result[1] == "dog"
         assert result["animal"] == "fish"
-        
 
     def test_list_parameters_no_arguments(self):
         result = list_parameters()
@@ -61,3 +61,17 @@ class TestCountDays:
         assert result.year == 2021
         assert result.month == 12
         assert result.day == 22
+
+
+class TestPagination:
+    def test_paginate(self):
+        data = list(range(100))
+        result = paginate(data, 10, 5)
+        assert len(result) == 10
+        assert result[0] == 40
+        assert result[9] == 49
+
+    def test_paginate_last_page_not_full(self):
+        data = list(range(100))
+        result = paginate(data, 11, 10)
+        assert len(result) == 1
