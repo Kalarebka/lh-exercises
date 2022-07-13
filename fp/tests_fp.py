@@ -34,6 +34,13 @@ class TestToChunks:
         result = to_chunks(alphabet, 27, 30)
         assert len(result) == 1
 
+    def test_to_chunks_big_range_of_chunk_size(self):
+        alphabet = [x for x in "abcdefghijklmnoprstuwxyz"]
+        result = to_chunks(alphabet, 2, 20)
+        for item in result:
+            assert len(item) >= 2
+            assert len(item) <= 20
+
 
 class TestCountDays:
     def test_count_days_earlier_to_later_date(self):

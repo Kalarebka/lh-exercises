@@ -1,4 +1,4 @@
-# Create 4 clases User, Administrator or Admin, Redactor and Post
+# Create 4 clases: User, Administrator or Admin, Redactor and Post
 # User class has to have name, surname, email, date of birth, gender, it has possibility to change own email, create, edit, delete own posts
 # Redactor class has all functions that User class has and has possibility to edit all posts
 # Admin class can edit everything, attributes of classes User and Redactor and can edit all posts
@@ -11,7 +11,7 @@
 # It should be possible to determine which Post class is bigger (have longer content)
 
 # Use Abstract classes to provide solution
-# Symulate this same functionality with one class and permissions system, where Admin can elevate permissions of other users
+# Simulate this same functionality with one class and permissions system, where Admin can elevate permissions of other users
 
 
 class User:
