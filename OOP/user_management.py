@@ -17,6 +17,7 @@ from datetime import date
 
 class AbstractUser(ABC):
     def __init__(self, name, surname, email, date_of_birth, gender):
+        # TODO some data validation 
         self.name = name
         self.surname = surname
         self.email = email
@@ -25,7 +26,7 @@ class AbstractUser(ABC):
         self.posts = []
 
     def __eq__(self, other):
-        return type(self) == type(other) and self.name == other.name and self.surname = other.surname
+        return type(self) == type(other) and self.name == other.name and self.surname == other.surname
 
     def create_post(self, content):
         self.posts.append(Post(self, content))
@@ -49,15 +50,30 @@ class User(AbstractUser):
         else:
             print("Permission denied")
 
+    def delete_post(self, post):
+        if post.author == self:
+            post.delete()
+        else:
+            print("Permission denied")
+
 
 class Admin(AbstractUser):
     def edit_post(self, post, new_content):
         post.edit(self, new_content)
 
+    def delete_post(self, post):
+        post.delete()
+
 
 class Redactor(AbstractUser):
     def edit_post(self, post, new_content):
         post.edit(self, new_content)
+
+    def delete_post(self, post):
+        if post.author == self:
+            post.delete()
+        else:
+            print("Permission denied")
 
 
 class Post:
@@ -72,4 +88,7 @@ class Post:
     def edit(self, new_content):
         self.content = new_content
         self.date_modified = date.today()
+
+    def delete(self):
+        pass
 
