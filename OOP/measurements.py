@@ -5,6 +5,7 @@
 
 COMPARISON_PRECISION = 0.01
 
+
 class Unit:
     symbol = None
 
@@ -49,7 +50,6 @@ class Unit:
         return self > other or self == other
 
 
-
 class Celsius(Unit):
     symbol = "°C"
     converting_function = "to_celsius"
@@ -58,7 +58,7 @@ class Celsius(Unit):
         value = self.value * 1.8 + 32
         return Fahrenheit(value)
 
-    
+
 class Fahrenheit(Unit):
     symbol = "°F"
     converting_function = "to_fahrenheit"
@@ -120,4 +120,3 @@ class Gallon(Unit):
     def to_liter(self):
         value = self.value * 3.785412
         return Liter(value)
-

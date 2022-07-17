@@ -2,6 +2,7 @@ import pytest
 
 from measurements import Celsius, Fahrenheit, Inch, Centimeter
 
+
 class TestCelsiusAndFahrenheit:
     def test_create_celsius(self):
         temp = Celsius(33)
@@ -57,7 +58,7 @@ class TestCelsiusAndFahrenheit:
         temp2 = Celsius(10.1)
         assert temp != temp2
 
-    
+
 class TestCentimeterAndInch:
     def test_centimeter_equality(self):
         cm = Centimeter(20)
