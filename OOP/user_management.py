@@ -25,8 +25,17 @@ class AbstractUser(ABC):
         self.gender = gender
         self.posts = []
 
+    # Should be compatible with __hash__ - objects that are equivalent should hash the same
     def __eq__(self, other):
         return type(self) == type(other) and self.name == other.name and self.surname == other.surname
+
+    def __hash__(self):
+        return hash((type(self), self.name, self.surname))
+
+    # Not sure about this one, there should be a better way to do it/ or just put it in child classes
+    def __lt__(self, other):
+        return isinstance(self, User) and (isinstance(other, Redactor) or isinstance(other, Admin))
+               or isinstance(self, Redactor) and isinstance(other, Admin)
 
     def create_post(self, content):
         self.posts.append(Post(self, content))

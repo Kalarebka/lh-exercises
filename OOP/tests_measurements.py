@@ -1,6 +1,6 @@
 import pytest
 
-from measurements import Celsius, Fahrenheit
+from measurements import Celsius, Fahrenheit, Inch, Centimeter
 
 class TestCelsiusAndFahrenheit:
     def test_create_celsius(self):
@@ -58,3 +58,28 @@ class TestCelsiusAndFahrenheit:
         assert temp != temp2
 
     
+class TestCentimeterAndInch:
+    def test_centimeter_equality(self):
+        cm = Centimeter(20)
+        cm2 = Centimeter(20)
+        cm3 = Centimeter(25)
+        assert cm == cm2
+        assert not cm == cm3
+
+    def test_equals_centimeter_and_inch(self):
+        cm = Centimeter(20)
+        inch = cm.to_inch()
+        inch2 = Inch(7.874)
+        assert cm == inch
+        assert cm == inch2
+        assert inch == inch2
+
+    def test_centimeter_and_inch_comparisons(self):
+        cm = Centimeter(12)
+        cm2 = Centimeter(20)
+        inch = Inch(6)
+        inch2 = Inch(10)
+        assert cm < cm2
+        assert inch2 > inch
+        assert inch < cm2
+        assert inch2 > cm
