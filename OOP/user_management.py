@@ -119,6 +119,7 @@ class Post:
         )  # could also do datetime here to record precise time
         self.date_modified = self.date_created
 
+    # Maybe try using @functools.total_ordering
     def __lt__(self, other):
         if isinstance(other, Post):
             return len(self.content) < len(other.content)
