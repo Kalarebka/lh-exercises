@@ -3,11 +3,27 @@
 # Create methods that allow convering units to each other Celcius <-> Fahrenheit, Centimeter <-> Inch, Kilometer <-> Mile, Liter <-> Gallon
 # Create method that allows to compare units using logical expressions
 
+# should to_SI return an unit object or just a value?
+# value - less redundant stuff, easier to compare 
+# unit object - will have info what it actually converts into - more readable, more consistent - I guess this one's more OOP style
+
+from abc import ABC, abstractmethod, abstractproperty
+
 COMPARISON_PRECISION = 0.01
 
 
-class Unit:
-    symbol = None
+class Unit(ABC):
+    @abstractproperty
+    def symbol(self):
+        pass
+
+    @abstractproperty
+    def unit_type(self):
+        pass
+
+    @abstractmethod
+    def to_SI(self):
+        pass
 
     def __init__(self, num_value):
         self.value = num_value
@@ -15,35 +31,31 @@ class Unit:
     def __str__(self):
         return f"{self.value}{self.symbol}"
 
-    # Comparisons should work for all units that can convert into each other
     def __eq__(self, other):
-        if type(self) == type(other):
+        if self.__class__ == other.__class__:
             return abs(self.value - other.value) < COMPARISON_PRECISION
-        elif hasattr(other, self.converting_function):
-            convert = getattr(other, self.converting_function)
-            return abs(self.value - convert().value) < COMPARISON_PRECISION
+        elif hasattr(other, "to_SI") and self.unit_type == other.unit_type:
+            return abs(self.to_SI() - other.to_SI()) < COMPARISON_PRECISION
         return NotImplemented
 
     def __ne__(self, other):
         return not (self == other)
 
     def __lt__(self, other):
-        if type(self) == type(other):
+        if self.__class__ == other.__class__:
             return self.value < other.value
-        elif hasattr(other, self.converting_function):
-            convert = getattr(other, self.converting_function)
-            return self.value - convert().value <= -COMPARISON_PRECISION
+        elif hasattr(other, "to_SI") and self.base_unit == other.base_unit:
+            return self.to_si() - other.to_si() <= -COMPARISON_PRECISION
         return NotImplemented
 
     def __le__(self, other):
         return self < other or self == other
 
     def __gt__(self, other):
-        if type(self) == type(other):
+        if self.__class__ == other.__class__:
             return self.value > other.value
-        elif hasattr(other, self.converting_function):
-            convert = getattr(other, self.converting_function)
-            return self.value - convert().value >= COMPARISON_PRECISION
+        elif hasattr(other, "to_SI") and self.base_unit == other.base_unit:
+            return self.to_si() - other.to_si() >= COMPARISON_PRECISION
         return NotImplemented
 
     def __ge__(self, other):
@@ -52,7 +64,11 @@ class Unit:
 
 class Celsius(Unit):
     symbol = "°C"
-    converting_function = "to_celsius"
+    unit_type = "temperature"
+
+    def to_SI(self):
+        pass
+
 
     def to_fahrenheit(self):
         value = self.value * 1.8 + 32
@@ -61,7 +77,10 @@ class Celsius(Unit):
 
 class Fahrenheit(Unit):
     symbol = "°F"
-    converting_function = "to_fahrenheit"
+    unit_type = "temperature"
+
+    def to_SI(self):
+        pass
 
     def to_celsius(self):
         value = (self.value - 32) * 0.5556
@@ -70,7 +89,10 @@ class Fahrenheit(Unit):
 
 class Centimeter(Unit):
     symbol = " cm"
-    converting_function = "to_centimeter"
+    unit_type = "length"
+
+    def to_SI(self):
+        pass
 
     def to_inch(self):
         value = self.value / 2.54
@@ -79,7 +101,10 @@ class Centimeter(Unit):
 
 class Inch(Unit):
     symbol = "″"
-    converting_function = "to_inch"
+    unit_type = "length"
+
+    def to_SI(self):
+        pass
 
     def to_centimeter(self):
         value = self.value * 2.54
@@ -88,7 +113,10 @@ class Inch(Unit):
 
 class Kilometer(Unit):
     symbol = "km"
-    converting_function = "to_kilometer"
+    unit_type = "length"
+
+    def to_SI(self):
+        pass
 
     def to_mile(self):
         value = self.value * 0.62137
@@ -97,7 +125,10 @@ class Kilometer(Unit):
 
 class Mile(Unit):
     symbol = " mi."
-    converting_function = "to_mile"
+    unit_type = "length"
+
+    def to_SI(self):
+        pass
 
     def to_kilometer(self):
         value = self.value * 1.60934
@@ -106,7 +137,10 @@ class Mile(Unit):
 
 class Liter(Unit):
     symbol = " l"
-    converting_function = "to_liter"
+    unit_type = "volume"
+
+    def to_SI(self):
+        pass
 
     def to_gallon(self):
         value = self.value * 0.264172
@@ -115,8 +149,36 @@ class Liter(Unit):
 
 class Gallon(Unit):
     symbol = " gal"
-    converting_function = "to_gallon"
+    unit_type = "volume"
+
+    def to_SI(self):
+        pass
 
     def to_liter(self):
         value = self.value * 3.785412
         return Liter(value)
+
+
+# Base units
+class Kelvin(Unit):
+    symbol = " K"
+    unit_type = "temperature"
+
+    def to_SI(self):
+        return self
+
+
+class Metre(Unit):
+    symbol = " m"
+    unit_type = "length"
+
+    def to_SI(self):
+        return self
+
+
+class CubicMetre(Unit):
+    symbol = " m^3"
+    unit_type = "volume"
+
+    def to_si(self):
+        return self

@@ -6,16 +6,12 @@ from random import randint
 
 def to_chunks(data: list, min_length: int, max_length: int):
     if len(data) <= max_length:
-        return [
-            data,
-        ]
+        return [data]
     if len(data) <= 2 * max_length:
         chunk_len = randint(len(data) - max_length, max_length)
         return [data[:chunk_len], data[chunk_len:]]
     else:
         chunk_len = randint(min_length, max_length)
-        new_data = [
-            data[:chunk_len],
-        ]
+        new_data = [data[:chunk_len]]
         new_data.extend(to_chunks(data[chunk_len:], min_length, max_length))
         return new_data
