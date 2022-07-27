@@ -10,15 +10,14 @@
 # Classes Admin, Redactor, and User should be able to be used as keys in dict --> DONE
 # It should be possible to determine which Post class is bigger (have longer content) --> ~ DONE
 
-# Use Abstract classes to provide solution --> DONE???
+# Use Abstract classes to provide solution --> DONE
 # Simulate this same functionality with one class and permissions system, where Admin can elevate permissions of other users -->
 from abc import ABC, abstractmethod, abstractproperty
-from datetime import datetime
+from datetime import datetime, date
 
 
 class AbstractUser(ABC):
-    def __init__(self, name, surname, email, date_of_birth, gender):
-        # TODO some data validation
+    def __init__(self, name: str, surname: str, email: str, date_of_birth: date, gender: str):
         self.name = name
         self.surname = surname
         self.email = email
@@ -29,9 +28,6 @@ class AbstractUser(ABC):
     @abstractproperty
     def permission_level(self):
         pass
-
-    @abstractproperty
-
 
     # Should be compatible with __hash__ - objects that are equivalent should hash the same
     def __eq__(self, other):
@@ -46,6 +42,9 @@ class AbstractUser(ABC):
 
     # Comparisons
     def __lt__(self, other):
+        return self.permission_level < other.permission_level
+
+    def _gt__(self, other):
         return self.permission_level > other.permission_level
 
     def create_post(self, content):
@@ -121,9 +120,7 @@ class Post:
     def __init__(self, author, content):
         self.author = author
         self.content = content
-        self.date_created = (
-            datetime.now()
-        )
+        self.date_created = (datetime.now())
         self.date_modified = self.date_created
 
     # Maybe try using @functools.total_ordering
