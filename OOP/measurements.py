@@ -26,6 +26,9 @@ class Unit(ABC):
     def to_SI(self):
         pass
 
+    def _is_valid_operand(self, other):
+        return hasattr(other, "to_SI") and self.unit_type == other.unit_type
+
     def __init__(self, num_value):
         self.value = num_value
 
@@ -33,9 +36,7 @@ class Unit(ABC):
         return f"{self.value}{self.symbol}"
 
     def __eq__(self, other):
-        if self.__class__ == other.__class__:
-            return abs(self.value - other.value) < RELATIVE_PRECISION * self.value
-        elif hasattr(other, "to_SI") and self.unit_type == other.unit_type:
+        if self._is_valid_operand(other):
             return abs(self.to_SI().value - other.to_SI().value) < RELATIVE_PRECISION * self.value
         return NotImplemented
 
@@ -43,9 +44,7 @@ class Unit(ABC):
         return not (self == other)
 
     def __lt__(self, other):
-        if self.__class__ == other.__class__:
-            return self.value < other.value
-        elif hasattr(other, "to_SI") and self.unit_type == other.unit_type:
+        if self._is_valid_operand(other):
             return self.to_SI().value - other.to_SI().value <= -RELATIVE_PRECISION * self.value
         return NotImplemented
 
@@ -53,9 +52,7 @@ class Unit(ABC):
         return self < other or self == other
 
     def __gt__(self, other):
-        if self.__class__ == other.__class__:
-            return self.value > other.value
-        elif hasattr(other, "to_SI") and self.unit_type == other.unit_type:
+        if  self._is_valid_operand(other):
             return self.to_SI().value - other.to_SI().value >= RELATIVE_PRECISION * self.value
         return NotImplemented
 

@@ -12,3 +12,6 @@ class TestFileHandler:
         line2 = handler.get_line()
         assert line == '1,1,1,1\n'
         assert line2 == '2,2,2,2'
+
+    def test_file_handler_closes_file(self):
+        pass

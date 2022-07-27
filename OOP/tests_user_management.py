@@ -16,7 +16,6 @@ class TestUser:
         assert user.date_of_birth.day == 1
         assert user.gender == "unknown"
 
-    # TODO tests for creating user & parameter validation
 
     def test_compare_users_equal(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
