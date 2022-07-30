@@ -3,20 +3,8 @@
 
 import atexit
 
-# class FileHandler:
-#     def __init__(self, filename):
-#         self.filename = filename
-#         self.file = open(self.filename, "r")
-#         self.line_generator = self.file.readlines()
+from os import path
 
-#     def __enter__(self):
-#         return self
-
-#     def __exit__(self, exc_type, exc_value, exc_tb):
-#         self.file.close()
-
-#     def get_line(self):
-#         return self.file.readline()
 
 class FileHandler:
     def __init__(self, filename):
@@ -27,6 +15,7 @@ class FileHandler:
         return self
 
     def __exit__(self, exc_type, exc_value, exc_tb):
+        atexit.unregister(self.file.close)
         self.file.close()
 
     def get_line(self):
@@ -36,18 +25,16 @@ class FileHandler:
         atexit.unregister(self.file.close)
         self.file.close()
 
-# Assumptions:
-# - context manager == has to open the file and close it after it's finished (_del_? atexit?)
-# - but without using "with" statement?
-# - supposed to use a generator but the file object is already a generator
 
+directory = path.dirname(path.realpath(__file__))
+file_path = path.join(directory, 'trees.csv')
 
 # Using 'with' statement
-with FileHandler("trees.csv") as f:
+with FileHandler(file_path) as f:
     for i in range(10):
         print(f.get_line())
 
-# Using a variable
-handler = FileHandler("trees.csv")
+# # Using a variable
+handler = FileHandler(file_path)
 for i in range(20):
     print(handler.get_line())

@@ -10,7 +10,7 @@
 from abc import ABC, abstractmethod, abstractproperty
 
 
-RELATIVE_PRECISION = 0.0001
+RELATIVE_PRECISION = 0.00001
 
 
 class Unit(ABC):
@@ -114,7 +114,7 @@ class Inch(Unit):
 
 
 class Kilometer(Unit):
-    symbol = "km"
+    symbol = " km"
     unit_type = "length"
 
     def to_SI(self):
@@ -122,7 +122,7 @@ class Kilometer(Unit):
         return Meter(value)
 
     def to_mile(self):
-        value = self.value * 0.62137
+        value = self.value * 0.621371192
         return Mile(value)
 
 
@@ -135,7 +135,7 @@ class Mile(Unit):
         return Meter(value)
 
     def to_kilometer(self):
-        value = self.value * 1.60934
+        value = self.value * 1.609344
         return Kilometer(value)
 
 

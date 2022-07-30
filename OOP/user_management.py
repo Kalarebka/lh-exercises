@@ -43,15 +43,17 @@ class User:
     def __gt__(self, other):
         return self.permission_level > other.permission_level
 
-    def create_post(self, content):
-        self.posts.append(Post(self, content))
+    def create_post(self, title, content):
+        post = Post(self, title, content)
+        self.posts.append(post)
+        return post
 
     def change_email(self, new_email):
         self.email = new_email
 
     def edit_post(self, post, new_content):
         if post.author == self or self.permission_level >= 50:
-            post.edit(self, new_content)
+            post.edit(new_content)
         else:
             print("Permission denied")
 
@@ -92,8 +94,9 @@ class Admin(User):
 
 @total_ordering
 class Post:
-    def __init__(self, author, content):
+    def __init__(self, author, title, content):
         self.author = author
+        self.title = title
         self.content = content
         self.date_created = (datetime.now())
         self.date_modified = self.date_created

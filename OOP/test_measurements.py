@@ -1,6 +1,6 @@
 import pytest
 
-from measurements import Celsius, Fahrenheit, Inch, Centimeter
+from measurements import *
 
 
 class TestCelsiusAndFahrenheit:
@@ -84,3 +84,65 @@ class TestCentimeterAndInch:
         assert inch2 > inch
         assert inch < cm2
         assert inch2 > cm
+
+
+class TestKilometerAndMile:
+    def test_create_kilometer_and_mile(self):
+        km = Kilometer(20)
+        mile = Mile(20)
+        assert km.value == 20
+        assert mile.value == 20
+        assert str(km) == '20 km'
+        assert str(mile) == '20 mi.'
+
+    def test_convert_km_and_mile(self):
+        km = Kilometer(20)
+        mile = Mile(20)
+        km2 = mile.to_kilometer()
+        mile2 = km.to_mile()
+        assert km == mile2
+        assert mile == km2
+
+    def test_compare_km_and_mile(self):
+        km = Kilometer(20)
+        km2 = Kilometer(25)
+        mile = Mile(20)
+        mile2 = km.to_mile()
+        assert km < km2
+        assert mile > km
+        assert km == mile2
+        assert km <= mile2
+        assert km >= mile2
+        assert km <= km2
+
+
+class TestLiterAndGallon:
+    def test_create_liter_and_gallon(self):
+        liter = Liter(20)
+        gallon = Gallon(20)
+        assert liter.value == 20
+        assert gallon.value == 20
+        assert str(liter) == '20 l'
+        assert str(gallon) == '20 gal'
+
+    def test_convert_liter_and_gallon(self):
+        liter = Liter(20)
+        gallon = Gallon(20)
+        liter2 = gallon.to_liter()
+        gallon2 = liter.to_gallon()
+        assert liter == gallon2
+        assert gallon == liter2
+
+    def test_compare_liter_and_gallon(self):
+        liter = Liter(20)
+        gallon = Gallon(20)
+        liter2 = Liter(25)
+        gallon2 = liter.to_gallon()
+        assert liter < liter2
+        assert gallon > liter
+        assert liter == gallon2
+        assert liter <= gallon2
+        assert liter >= gallon2
+        assert liter <= liter2
+        assert gallon >= liter2
+       
