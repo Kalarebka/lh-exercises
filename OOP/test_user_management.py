@@ -16,12 +16,10 @@ class TestUser:
         assert user.date_of_birth.day == 1
         assert user.gender == "unknown"
 
-
     def test_user_with_same_data_not_equal(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
         user2 = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
         assert user != user2
-        
 
     def compare_users_less_than(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
@@ -63,26 +61,42 @@ class TestUser:
         assert len(user.posts) == 2
         user.delete_post(post2)
         assert len(user.posts) == 1
-        
 
     def test_user_cannot_edit_others_post(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
-        user2 = User("Carrot", "Ironfoundersson", "carrot@ankh-morpork.com", date(1990, 4, 1), "male")
+        user2 = User(
+            "Carrot",
+            "Ironfoundersson",
+            "carrot@ankh-morpork.com",
+            date(1990, 4, 1),
+            "male",
+        )
         post = user.create_post("some test title", "old content")
         user2.edit_post(post, "new content")
         assert post.content == "old content"
-        
 
     def test_user_cannot_delete_others_post(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
-        user2 = User("Carrot", "Ironfoundersson", "carrot@ankh-morpork.com", date(1990, 4, 1), "male")
+        user2 = User(
+            "Carrot",
+            "Ironfoundersson",
+            "carrot@ankh-morpork.com",
+            date(1990, 4, 1),
+            "male",
+        )
         post = user.create_post("some test title", "some test content")
         user2.delete_post(post)
         assert len(user.posts) == 1
 
     def test_user_cannot_change_others_attributes(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
-        user2 = User("Carrot", "Ironfoundersson", "carrot@ankh-morpork.com", date(1990, 4, 1), "male")
+        user2 = User(
+            "Carrot",
+            "Ironfoundersson",
+            "carrot@ankh-morpork.com",
+            date(1990, 4, 1),
+            "male",
+        )
         user.edit_user_gender(user2, "female")
         user.edit_user_surname(user2, "von Uberwald")
         user.edit_user_name(user2, "Angua")
@@ -111,21 +125,41 @@ class TestUser:
 class TestRedactor:
     def test_redactor_can_edit_others_post(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
-        redactor = Redactor("Carrot", "Ironfoundersson", "carrot@ankh-morpork.com", date(1990, 4, 1), "male")
+        redactor = Redactor(
+            "Carrot",
+            "Ironfoundersson",
+            "carrot@ankh-morpork.com",
+            date(1990, 4, 1),
+            "male",
+        )
         post = user.create_post("some test title", "old content")
         redactor.edit_post(post, "new content")
         assert post.content == "new content"
 
     def test_redactor_cannot_delete_others_post(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
-        redactor = Redactor("Carrot", "Ironfoundersson", "carrot@ankh-morpork.com", date(1990, 4, 1), "male")
+        redactor = Redactor(
+            "Carrot",
+            "Ironfoundersson",
+            "carrot@ankh-morpork.com",
+            date(1990, 4, 1),
+            "male",
+        )
         post = user.create_post("some test title", "old content")
         redactor.delete_post(post)
         assert len(user.posts) == 1
 
     def test_redactor_cannot_edit_others_attributes(self):
-        redactor = Redactor("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
-        user2 = User("Carrot", "Ironfoundersson", "carrot@ankh-morpork.com", date(1990, 4, 1), "male")
+        redactor = Redactor(
+            "Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown"
+        )
+        user2 = User(
+            "Carrot",
+            "Ironfoundersson",
+            "carrot@ankh-morpork.com",
+            date(1990, 4, 1),
+            "male",
+        )
         redactor.edit_user_gender(user2, "female")
         redactor.edit_user_surname(user2, "von Uberwald")
         redactor.edit_user_name(user2, "Angua")
@@ -137,25 +171,43 @@ class TestRedactor:
         assert user2.date_of_birth == date(1990, 4, 1)
         assert user2.email == "carrot@ankh-morpork.com"
 
-        
+
 class TestAdmin:
     def test_admin_can_edit_others_post(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
-        admin = Admin("Carrot", "Ironfoundersson", "carrot@ankh-morpork.com", date(1990, 4, 1), "male")
+        admin = Admin(
+            "Carrot",
+            "Ironfoundersson",
+            "carrot@ankh-morpork.com",
+            date(1990, 4, 1),
+            "male",
+        )
         post = user.create_post("some test title", "old content")
         admin.edit_post(post, "new content")
         assert post.content == "new content"
 
     def test_admin_can_delete_others_post(self):
         user = User("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
-        admin = Admin("Carrot", "Ironfoundersson", "carrot@ankh-morpork.com", date(1990, 4, 1), "male")
+        admin = Admin(
+            "Carrot",
+            "Ironfoundersson",
+            "carrot@ankh-morpork.com",
+            date(1990, 4, 1),
+            "male",
+        )
         post = user.create_post("some test title", "old content")
         admin.delete_post(post)
         assert len(user.posts) == 0
 
     def test_admin_can_edit_others_attributes(self):
         admin = Admin("Nobby", "Nobbs", "nobby@nobbs.com", date(1990, 4, 1), "unknown")
-        user2 = User("Carrot", "Ironfoundersson", "carrot@ankh-morpork.com", date(1990, 4, 1), "male")
+        user2 = User(
+            "Carrot",
+            "Ironfoundersson",
+            "carrot@ankh-morpork.com",
+            date(1990, 4, 1),
+            "male",
+        )
         admin.edit_user_gender(user2, "female")
         admin.edit_user_surname(user2, "von Uberwald")
         admin.edit_user_name(user2, "Angua")

@@ -27,7 +27,7 @@ class FileHandler:
 
 
 directory = path.dirname(path.realpath(__file__))
-file_path = path.join(directory, 'trees.csv')
+file_path = path.join(directory, "trees.csv")
 
 # Using 'with' statement
 with FileHandler(file_path) as f:

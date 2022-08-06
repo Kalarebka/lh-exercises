@@ -3,10 +3,6 @@
 # Create methods that allow convering units to each other Celcius <-> Fahrenheit, Centimeter <-> Inch, Kilometer <-> Mile, Liter <-> Gallon
 # Create method that allows to compare units using logical expressions
 
-# should to_SI return an unit object or just a value?
-# value - less redundant stuff, easier to compare 
-# unit object - will have info what it actually converts into - more readable, more consistent
-
 from abc import ABC, abstractmethod, abstractproperty
 
 
@@ -37,7 +33,10 @@ class Unit(ABC):
 
     def __eq__(self, other):
         if self._is_valid_operand(other):
-            return abs(self.to_SI().value - other.to_SI().value) < RELATIVE_PRECISION * self.value
+            return (
+                abs(self.to_SI().value - other.to_SI().value)
+                < RELATIVE_PRECISION * self.value
+            )
         return NotImplemented
 
     def __ne__(self, other):
@@ -45,15 +44,21 @@ class Unit(ABC):
 
     def __lt__(self, other):
         if self._is_valid_operand(other):
-            return self.to_SI().value - other.to_SI().value <= -RELATIVE_PRECISION * self.value
+            return (
+                self.to_SI().value - other.to_SI().value
+                <= -RELATIVE_PRECISION * self.value
+            )
         return NotImplemented
 
     def __le__(self, other):
         return self < other or self == other
 
     def __gt__(self, other):
-        if  self._is_valid_operand(other):
-            return self.to_SI().value - other.to_SI().value >= RELATIVE_PRECISION * self.value
+        if self._is_valid_operand(other):
+            return (
+                self.to_SI().value - other.to_SI().value
+                >= RELATIVE_PRECISION * self.value
+            )
         return NotImplemented
 
     def __ge__(self, other):
@@ -67,7 +72,6 @@ class Celsius(Unit):
     def to_SI(self):
         value = self.value + 273.15
         return Kelvin(value)
-
 
     def to_fahrenheit(self):
         value = self.value * 1.8 + 32

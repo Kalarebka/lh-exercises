@@ -1,7 +1,7 @@
 # Create 4 classes: User, Administrator or Admin, Redactor and Post --> DONE
 # User class has to have name, surname, email, date of birth, gender, it has possibility to change own email, create, edit, delete own posts --> DONE
 # Redactor class has all functions that User class has and has possibility to edit all posts --> DONE
-# Admin class can edit everything, attributes of classes User and Redactor and can edit all posts and delete all posts --> DONE 
+# Admin class can edit everything, attributes of classes User and Redactor and can edit all posts and delete all posts --> DONE
 # Post has content, date of creation and modification, Author, can be edited via method, by User with proper permissions, --> DONE
 # date of modification should be created and updated automatically --> DONE
 
@@ -12,15 +12,18 @@
 
 # Use Abstract classes to provide solution xxxx
 # Simulate this same functionality with one class and permissions system, where Admin can elevate permissions of other users -->
+from abc import ABC
 from datetime import datetime, date
 from functools import total_ordering
 from uuid import uuid4
 
 
-class User:
+class AbstractUser(ABC):
     permission_level = 10
 
-    def __init__(self, name: str, surname: str, email: str, date_of_birth: date, gender: str):
+    def __init__(
+        self, name: str, surname: str, email: str, date_of_birth: date, gender: str
+    ):
         self.id = uuid4()
         self.name = name
         self.surname = surname
@@ -64,31 +67,50 @@ class User:
             print("Permission denied")
 
     def edit_user_name(self, user, new_name):
-        if self.permission_level >= 90 and self.permission_level >= user.permission_level:
+        if (
+            self.permission_level >= 90
+            and self.permission_level >= user.permission_level
+        ):
             user.name = new_name
 
     def edit_user_surname(self, user, new_surname):
-        if self.permission_level >= 90 and self.permission_level >= user.permission_level:
+        if (
+            self.permission_level >= 90
+            and self.permission_level >= user.permission_level
+        ):
             user.surname = new_surname
 
     def edit_user_email(self, user, new_email):
-        if self.permission_level >= 90 and self.permission_level >= user.permission_level:
+        if (
+            self.permission_level >= 90
+            and self.permission_level >= user.permission_level
+        ):
             user.email = new_email
 
     def edit_user_date_of_birth(self, user, new_date):
-        if self.permission_level >= 90 and self.permission_level >= user.permission_level:
+        if (
+            self.permission_level >= 90
+            and self.permission_level >= user.permission_level
+        ):
             user.date_of_birth = new_date
 
     def edit_user_gender(self, user, new_gender):
-        if self.permission_level >= 90 and self.permission_level >= user.permission_level:
+        if (
+            self.permission_level >= 90
+            and self.permission_level >= user.permission_level
+        ):
             user.gender = new_gender
 
-    
-class Redactor(User):
+
+class User(AbstractUser):
+    pass
+
+
+class Redactor(AbstractUser):
     permission_level = 50
 
 
-class Admin(User):
+class Admin(AbstractUser):
     permission_level = 90
 
 
@@ -98,7 +120,7 @@ class Post:
         self.author = author
         self.title = title
         self.content = content
-        self.date_created = (datetime.now())
+        self.date_created = datetime.now()
         self.date_modified = self.date_created
 
     def __lt__(self, other):
@@ -114,7 +136,7 @@ class Post:
     def edit(self, new_content):
         self.content = new_content
         self.date_modified = datetime.now()
-        return self # function chaining
+        return self  # function chaining
 
     def delete(self):
         self.author.posts.remove(self)

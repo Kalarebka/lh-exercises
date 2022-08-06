@@ -1,6 +1,15 @@
 import pytest
 
-from measurements import *
+from measurements import (
+    Celsius,
+    Fahrenheit,
+    Centimeter,
+    Inch,
+    Kilometer,
+    Mile,
+    Liter,
+    Gallon,
+)
 
 
 class TestCelsiusAndFahrenheit:
@@ -92,8 +101,8 @@ class TestKilometerAndMile:
         mile = Mile(20)
         assert km.value == 20
         assert mile.value == 20
-        assert str(km) == '20 km'
-        assert str(mile) == '20 mi.'
+        assert str(km) == "20 km"
+        assert str(mile) == "20 mi."
 
     def test_convert_km_and_mile(self):
         km = Kilometer(20)
@@ -122,8 +131,8 @@ class TestLiterAndGallon:
         gallon = Gallon(20)
         assert liter.value == 20
         assert gallon.value == 20
-        assert str(liter) == '20 l'
-        assert str(gallon) == '20 gal'
+        assert str(liter) == "20 l"
+        assert str(gallon) == "20 gal"
 
     def test_convert_liter_and_gallon(self):
         liter = Liter(20)
@@ -145,4 +154,3 @@ class TestLiterAndGallon:
         assert liter >= gallon2
         assert liter <= liter2
         assert gallon >= liter2
-       
